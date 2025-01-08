@@ -1,5 +1,6 @@
 import type { BitcoinNetwork } from './bitcoin'
 import type { BitcoinStakeProps } from './types/bitcoin'
+import { BackendApi } from './api'
 import { BitcoinClient } from './bitcoin'
 
 /**
@@ -18,4 +19,9 @@ import { BitcoinClient } from './bitcoin'
 export function stakeBitcoin(network: BitcoinNetwork, stakeProps: BitcoinStakeProps) {
   const client = new BitcoinClient(network)
   return client.bridge(stakeProps)
+}
+
+export function getProInfo(network: BitcoinNetwork, address: string) {
+  const client = new BackendApi(network)
+  return client.getProInfo(address)
 }

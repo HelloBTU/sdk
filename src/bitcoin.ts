@@ -143,18 +143,6 @@ export class BitcoinClient {
     return _chainId + fullAddress
   }
 
-  /**
-   * Deposit btc to bridge
-   * @param address
-   * @param pubkey
-   * @param committee
-   * @param amount
-   * @param feeRate
-   * @param chainId Destination chain id
-   * @param recipient Recipient address
-   * @param signer Bitcoin wallet provider
-   * @returns tx hash
-   */
   async bridge({
     address,
     pubkey,

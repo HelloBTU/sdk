@@ -68,6 +68,7 @@
   "dependencies": {
     "@safematrix/ord-utils": "^0.5.3",
     "bignumber.js": "^9.1.2",
-    "bitcoinjs-lib": "^6.1.7"
+    "bitcoinjs-lib": "^6.1.7",
+    "ofetch": "^1.4.1"
   }
 }
