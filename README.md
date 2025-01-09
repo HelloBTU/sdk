@@ -3,7 +3,6 @@
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![bundle][bundle-src]][bundle-href]
-[![JSDocs][jsdocs-src]][jsdocs-href]
 [![License][license-src]][license-href]
 
 # Hello BTU Library
@@ -23,13 +22,14 @@ yarn add @hellobtu/sdk
 
 Downloads [secp256k1.wasm](./assets/secp256k1.wasm) to public/
 
-### Fetch channel info
+### Fetch user address info
 
 ```typescript
 import { getProInfo } from '@hellobtu/sdk'
 
 const info = await getProInfo('bitcoin_testnet', 'tb1...')
 ```
+
 
 ### Upgrade to PRO
 ```typescript
@@ -41,7 +41,7 @@ const info = await upgradeToPro('bitcoin_testnet', 'tb1...')
 ### Stake Bitcoin
 
 ```typescript
-import { stakeBitcoin } from 'bitcoin-staking-lib'
+import { stakeBitcoin } from '@hellobtu/sdk'
 
 const stakeProps = {
   address: 'your-bitcoin-address',
@@ -49,13 +49,13 @@ const stakeProps = {
   committee: 'committee-address',
   amount: '1000000', // amount in satoshis
   feeRate: 5, // in sat/vB
-  chainId: 1, // destination chain ID
+  chainId: 11155111, // destination chain ID
   recipient: 'recipient-address',
   signer: 'your-wallet-provider, with signPsbt implemented'
 }
 
 // Stake Bitcoin
-const txHash = await stakeBitcoin('mainnet', stakeProps)
+const txHash = await stakeBitcoin('bitcoin_testnet', stakeProps)
 console.log('Transaction Hash:', txHash)
 ```
 

@@ -60,11 +60,23 @@ export class BackendApi {
   }
 
   /**
-   * Get PRO status
+   * Get PRO info
    * @param address User bitcoin wallet address.
-   * @return
+   * @returns {Promise<{
+   *   feeAddress: string,
+   *   fee: number,
+   *   committee: string,
+   *   consumer: string,
+   *   isPro: 'none' | 'processing' | 'completed' # PRO status, none: basic user, processing: upgrading to PRO, completed: PRO user
+   * }>} Pro status information
    */
-  async getProInfo(address: string) {
+  async getProInfo(address: string): Promise<{
+    feeAddress: string
+    fee: number
+    committee: string
+    consumer: string
+    isPro: 'none' | 'processing' | 'completed'
+  }> {
     const result = await this.httpGet('/dict/dict', { dictID: address, version: VERSION }) as any
     if (result.code === '105.bit-stable.DICT_NOT_FOUND') {
       return {
