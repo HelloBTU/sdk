@@ -46,7 +46,7 @@ console.log(info)
 
 #### 2. Upgrade to PRO Status
 
-Send fee to feeAddress before calling this function.
+Note: You must first send the required fee to the `feeAddress` before calling this function.
 
 ```typescript
 import { upgradeToPro } from '@hellobtu/sdk'
