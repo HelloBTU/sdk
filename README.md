@@ -8,7 +8,8 @@
 # Hello BTU Library
 
 A TypeScript library for HelloBTU protocol.
-## Usage
+
+## Getting Started
 
 ### Installation
 
@@ -18,46 +19,82 @@ npm install @hellobtu/sdk
 yarn add @hellobtu/sdk
 ```
 
-### Preparation
+### Prerequisites
 
-Downloads [secp256k1.wasm](./assets/secp256k1.wasm) to public/
+1. Download the required WASM file:
+   - Get [secp256k1.wasm](./assets/secp256k1.wasm)
+   - Place it in your project's `public/` directory
 
-### Fetch user address info
+### Basic Usage
 
+#### 1. Check User's PRO Status
 ```typescript
 import { getProInfo } from '@hellobtu/sdk'
 
-const info = await getProInfo('bitcoin_testnet', 'tb1...')
+// Check if a Bitcoin address is PRO
+const info = await getProInfo('bitcoin_testnet', 'tb1q...')
+console.log(info)
+// Returns:
+// {
+//   feeAddress: string,
+//   fee: number,
+//   committee: string,
+//   consumer: string,
+//   isPro: 'none' | 'processing' | 'completed'
+// }
 ```
 
+#### 2. Upgrade to PRO Status
 
-### Upgrade to PRO
+Send fee to feeAddress before calling this function.
+
 ```typescript
-import { getProInfo } from '@hellobtu/sdk'
+import { upgradeToPro } from '@hellobtu/sdk'
 
-const info = await upgradeToPro('bitcoin_testnet', 'tb1...')
+// Upgrade a Bitcoin address to PRO status
+const result = await upgradeToPro('bitcoin_testnet', 'tb1q...')
 ```
 
-### Stake Bitcoin
-
+#### 3. Stake Bitcoin
 ```typescript
 import { stakeBitcoin } from '@hellobtu/sdk'
 
+// Configure staking parameters
 const stakeProps = {
-  address: 'your-bitcoin-address',
-  pubkey: 'your-public-key',
-  committee: 'committee-address',
-  amount: '1000000', // amount in satoshis
-  feeRate: 5, // in sat/vB
-  chainId: 11155111, // destination chain ID
-  recipient: 'recipient-address',
-  signer: 'your-wallet-provider, with signPsbt implemented'
+  // Your Bitcoin address
+  address: 'tb1q...', 
+  
+  // Your Bitcoin public key
+  pubkey: '02...', 
+  
+  // Committee address to stake to
+  committee: 'tb1q...', 
+  
+  // Amount to stake (in satoshis)
+  amount: '1000000',
+  
+  // Transaction fee rate (in sat/vB)
+  feeRate: 5,
+  
+  // Destination chain ID (e.g., 11155111 for Sepolia testnet)
+  chainId: 11155111,
+  
+  // Recipient address on the destination chain
+  recipient: '0x...',
+  
+  // Your wallet provider (must implement signPsbt)
+  signer: walletProvider
 }
 
-// Stake Bitcoin
+// Execute staking transaction
 const txHash = await stakeBitcoin('bitcoin_testnet', stakeProps)
-console.log('Transaction Hash:', txHash)
+console.log('Staking Transaction Hash:', txHash)
 ```
+
+### Network Support
+
+The SDK supports testnet:
+- Use `'bitcoin_testnet'` for testnet operations
 
 ## License
 
