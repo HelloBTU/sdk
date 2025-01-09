@@ -7,6 +7,7 @@ export default antfu(
     overrides: {
       typescript: {
         '@typescript-eslint/explicit-function-return-type': 'off',
+        'no-console': 'off',
       },
     },
   },

@@ -9,17 +9,36 @@
 # Hello BTU Library
 
 A TypeScript library for HelloBTU protocol.
-This library is under active development and is subject to change.
+## Usage
 
-## Installation
+### Installation
 
 ```bash
-npm install bitcoin-staking-lib
+npm install @hellobtu/sdk
 # or
-yarn add bitcoin-staking-lib
+yarn add @hellobtu/sdk
 ```
 
-## Usage
+### Preparation
+
+Downloads [secp256k1.wasm](./assets/secp256k1.wasm) to public/
+
+### Fetch channel info
+
+```typescript
+import { getProInfo } from '@hellobtu/sdk'
+
+const info = await getProInfo('bitcoin_testnet', 'tb1...')
+```
+
+### Upgrade to PRO
+```typescript
+import { getProInfo } from '@hellobtu/sdk'
+
+const info = await upgradeToPro('bitcoin_testnet', 'tb1...')
+```
+
+### Stake Bitcoin
 
 ```typescript
 import { stakeBitcoin } from 'bitcoin-staking-lib'
@@ -52,7 +71,5 @@ MIT
 [npm-downloads-href]: https://npmjs.com/package/@hellobtu/sdk
 [bundle-src]: https://img.shields.io/bundlephobia/minzip/@hellobtu/sdk?style=flat&colorA=080f12&colorB=1fa669&label=minzip
 [bundle-href]: https://bundlephobia.com/result?p=@hellobtu/sdk
-[license-src]: https://img.shields.io/github/license/antfu/@hellobtu/sdk.svg?style=flat&colorA=080f12&colorB=1fa669
-[license-href]: https://github.com/antfu/@hellobtu/sdk/blob/main/LICENSE
-[jsdocs-src]: https://img.shields.io/badge/jsdocs-reference-080f12?style=flat&colorA=080f12&colorB=1fa669
-[jsdocs-href]: https://www.jsdocs.io/package/@hellobtu/sdk
+[license-src]: https://img.shields.io/github/license/HelloBTU/sdk.svg?style=flat&colorA=080f12&colorB=1fa669
+[license-href]: https://github.com/HelloBTU/sdk/blob/main/LICENSE

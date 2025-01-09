@@ -1,16 +1,16 @@
 import type { BitcoinNetwork } from './bitcoin'
-import { BRIDGE_CONFIG } from './config'
+import { BRIDGE_CONFIG, VERSION } from './config'
 
 const BACKEND_API_CONFIG: {
   [key in BitcoinNetwork]: { network: string, url: string }
 } = {
   bitcoin: {
     network: 'btc',
-    url: 'https://api.boolscan.com/bit-stable/',
+    url: 'https://api.boolscan.com/bit-stable',
   },
   bitcoin_testnet: {
     network: 'btc_testnet',
-    url: 'https://test-api.boolscan.com/bit-stable/',
+    url: 'https://test-api.boolscan.com/bit-stable',
   },
 }
 
@@ -33,6 +33,7 @@ export class BackendApi {
       c++
     }
     const headers = new Headers()
+    headers.append('Content-Type', 'application/json;charset=utf-8')
     headers.append('accept-language', 'en-US')
     const response = await fetch(new Request(url), {
       method: 'GET',
@@ -40,12 +41,7 @@ export class BackendApi {
       mode: 'cors',
     }) as any
     const data = await response.json()
-    if (data.code !== '000') {
-      throw new Error(data.msg || 'Network error')
-    }
-    else {
-      return data.data
-    }
+    return data
   }
 
   httpPost = async (route: string, parameters: any) => {
@@ -60,12 +56,7 @@ export class BackendApi {
       body: JSON.stringify(parameters),
     }) as any
     const data = await response.json()
-    if (data.code !== '000') {
-      throw new Error(data.msg || 'Network error')
-    }
-    else {
-      return data.data
-    }
+    return data
   }
 
   /**
@@ -73,12 +64,51 @@ export class BackendApi {
    * @param address User bitcoin wallet address.
    * @return
    */
-  getProInfo(address: string) {
-    const result = this.httpGet('/dict/dict', { dictID: address })
+  async getProInfo(address: string) {
+    const result = await this.httpGet('/dict/dict', { dictID: address, version: VERSION }) as any
     if (result.code === '105.bit-stable.DICT_NOT_FOUND') {
       return {
-        fee: this.config.feeAddress,
+        feeAddress: this.config.feeAddress,
+        fee: this.config.fee,
+        committee: this.config.committee,
+        consumer: this.config.consumer,
+        isPro: 'none',
       }
+    }
+    else if (result.data.status === 'END') {
+      const info = JSON.parse(result.data.dictContent)
+      return {
+        feeAddress: this.config.feeAddress,
+        fee: this.config.fee,
+        committee: info.committee,
+        consumer: info.consumer,
+        isPro: 'completed',
+      }
+    }
+    else {
+      return {
+        feeAddress: this.config.feeAddress,
+        fee: this.config.fee,
+        committee: this.config.committee,
+        consumer: this.config.consumer,
+        isPro: 'processing',
+      }
+    }
+  }
+
+  /**
+   * Upgrade to PRO
+   * @param props
+   * @param props.address User bitcoin address
+   * @param props.pubkey User bitcoin address pubkey
+   */
+  async upgradeToPro({ address, pubkey }: { address: string, pubkey: string }) {
+    const result = await this.httpPost('/dict/dict', { dictID: address, pubkey, dictContent: JSON.stringify({}) }) as any
+    if (result.code === '000') {
+      return result.data
+    }
+    else {
+      throw new Error(result.msg || 'Network error')
     }
   }
 }

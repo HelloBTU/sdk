@@ -6,6 +6,7 @@ import { BitcoinClient } from './bitcoin'
 /**
  * Stake bitcoin
  * @param network Bitcoin network ('mainnet' | 'testnet')
+ * @param stakeProps
  * @param stakeProps.address Bitcoin address to stake from
  * @param stakeProps.pubkey Public key of the bticoin address
  * @param stakeProps.committee Committee address
@@ -21,7 +22,26 @@ export function stakeBitcoin(network: BitcoinNetwork, stakeProps: BitcoinStakePr
   return client.bridge(stakeProps)
 }
 
+/**
+ * Get pro information
+ * @param network Bitcoin network ('mainnet' | 'testnet')
+ * @param address Bitcoin address to stake from
+ * @returns Pro information
+ */
 export function getProInfo(network: BitcoinNetwork, address: string) {
   const client = new BackendApi(network)
   return client.getProInfo(address)
+}
+
+/**
+ * Upgrade to PRO
+ * @param network Bitcoin network ('mainnet' | 'testnet')
+ * @param props
+ * @param props.address Bitcoin address to upgrade
+ * @param props.pubkey Bitcoin pubkey to upgrade
+ * @returns
+ */
+export function upgradeToPro(network: BitcoinNetwork, props: { address: string, pubkey: string }) {
+  const client = new BackendApi(network)
+  return client.upgradeToPro(props)
 }
