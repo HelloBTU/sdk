@@ -19,6 +19,14 @@ export enum RestoreWalletType {
   OTHERS,
 }
 
+/**
+ * @enum p2tr: Example bc1p5d7rjq7g6rdk2yhzks9smlaqtedr4dekq08ge8ztwac72sfr9rusxg3297
+ * @enum p2wpkh: Example bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq
+ * @enum p2sh: Example 3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy
+ * @enum p2pkh: Example 1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2
+ */
+export enum BitcoinAddressType { none, p2tr, p2wpkh, p2sh, p2pkh }
+
 export interface BitcoinBalance {
   confirm_amount: string
   pending_amount: string

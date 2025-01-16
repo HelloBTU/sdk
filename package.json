@@ -38,12 +38,22 @@
     "build": "unbuild",
     "dev": "unbuild --stub",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "prepublishOnly": "pnpm build",
     "release": "bumpp && pnpm publish",
     "start": "esno src/index.ts",
     "test": "vitest",
     "typecheck": "tsc --noEmit",
     "prepare": "simple-git-hooks"
+  },
+  "dependencies": {
+    "@safematrix/ord-utils": "^0.5.3",
+    "bignumber.js": "^9.1.2",
+    "bitcoinjs-lib": "^6.1.7",
+    "buffer": "^6.0.3",
+    "dayjs": "^1.11.13",
+    "ethers": "^6.13.5",
+    "ofetch": "^1.4.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.11.2",
@@ -64,11 +74,5 @@
   },
   "lint-staged": {
     "*": "eslint --fix"
-  },
-  "dependencies": {
-    "@safematrix/ord-utils": "^0.5.3",
-    "bignumber.js": "^9.1.2",
-    "bitcoinjs-lib": "^6.1.7",
-    "ofetch": "^1.4.1"
   }
 }

@@ -1,5 +1,5 @@
 import type { BitcoinNetwork } from './bitcoin'
-import { BRIDGE_CONFIG, VERSION } from './config'
+import { BRIDGE_CONFIG, VERSION } from '../utils/config'
 
 const BACKEND_API_CONFIG: {
   [key in BitcoinNetwork]: { network: string, url: string }
