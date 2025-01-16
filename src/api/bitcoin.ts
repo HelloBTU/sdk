@@ -2,7 +2,7 @@ import type {
   BitcoinStakeProps,
   FeeSummary,
   UTXO,
-} from './types/bitcoin'
+} from '../types/bitcoin'
 import {
   createSendMultiBTC,
 } from '@safematrix/ord-utils'

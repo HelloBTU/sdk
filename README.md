@@ -62,26 +62,26 @@ import { stakeBitcoin } from '@hellobtu/sdk'
 // Configure staking parameters
 const stakeProps = {
   // Your Bitcoin address
-  address: 'tb1q...', 
-  
+  address: 'tb1q...',
+
   // Your Bitcoin public key
-  pubkey: '02...', 
-  
+  pubkey: '02...',
+
   // Committee address to stake to
-  committee: 'tb1q...', 
-  
+  committee: 'tb1q...',
+
   // Amount to stake (in satoshis)
   amount: '1000000',
-  
+
   // Transaction fee rate (in sat/vB)
   feeRate: 5,
-  
+
   // Destination chain ID (e.g., 11155111 for Sepolia testnet)
   chainId: 11155111,
-  
+
   // Recipient address on the destination chain
   recipient: '0x...',
-  
+
   // Your wallet provider (must implement signPsbt)
   signer: walletProvider
 }
@@ -91,10 +91,27 @@ const txHash = await stakeBitcoin('bitcoin_testnet', stakeProps)
 console.log('Staking Transaction Hash:', txHash)
 ```
 
+### 4. BTUApi for EVM chain
+
+```typescript
+import { BTUApi } from '@hellobtu/sdk'
+
+// Example
+const btuApi = new BUTApi('chain_rpc_url')
+
+// Withdraw staked BTC from an EVM-compatible chain.
+const txReq = await btuApi.unstakeBitcoin({
+  contract: '0x',
+  address: '0x',
+  recipient: '0x',
+  provider: new BrowserProvider()
+})
+```
 ### Network Support
 
-The SDK supports testnet:
+The SDK supports testnet and EVM-compatible chain:
 - Use `'bitcoin_testnet'` for testnet operations
+- Use  `'BTUApi'` for EVM-compatible chain operations
 
 ## License
 
