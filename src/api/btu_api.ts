@@ -20,8 +20,8 @@ export class BTUApi {
   }
 
   /**
-   * Check bridge deposit status
-   * @param contract Bridge contract address
+   * Check channel deposit status
+   * @param contract Channel contract address
    * @returns boolean
    */
   isDepositPaused(contract: string) {
@@ -29,8 +29,8 @@ export class BTUApi {
   }
 
   /**
-   * Get deposit bridge fee.
-   * @param contract Bridge contract address
+   * Get deposit channel fee.
+   * @param contract Channel contract address
    * @returns bigint
    */
   depositFee(contract: string) {
@@ -39,7 +39,7 @@ export class BTUApi {
 
   /**
    * Get minium withdraw amount
-   * @param contract Bridge contract address
+   * @param contract Channel contract address
    * @returns bigint
    */
   miniumWithdrawAmount(contract: string) {
@@ -48,7 +48,7 @@ export class BTUApi {
 
   /**
    * Get maximum withdraw amount
-   * @param contract Bridge contract address
+   * @param contract Channel contract address
    * @param address User address
    * @returns bigint
    */
@@ -57,8 +57,8 @@ export class BTUApi {
   }
 
   /**
-   * Get withdraw bridge fee.
-   * @param contract Bridge contract address
+   * Get withdraw channel fee.
+   * @param contract Channel contract address
    * @returns bigint
    */
   withdrawFee(contract: string) {
@@ -112,7 +112,7 @@ export class BTUApi {
   /**
    * Withdraw staked BTC from an EVM-compatible chain.
    * @param params UnstakeBitcoin
-   * @param params.contract Bridge contract address
+   * @param params.contract Channel contract address
    * @param params.address EVM address for refund after failure
    * @param params.recipient Bitcoin address for recipient
    * @param params.amount Unstake BTC amount
@@ -129,7 +129,7 @@ export class BTUApi {
    * @param params.address BTCC contract address
    * @param params.amount Redeem BTC amount
    * @param params.recipient Bitcoin address for recipient
-   * @param params.consumer Bridge contract address
+   * @param params.consumer Channel contract address
    * @param params.provider  EVM wallet provider, ethers.BrowserProvider
    * @returns ethers.TransactionResponse
    */
@@ -140,7 +140,7 @@ export class BTUApi {
   /**
    * Release BTC from an EVM-compatible chain.
    * @param params ReleaseBitcoin
-   * @param params.address Bridge contract address
+   * @param params.address Channel contract address
    * @param params.amount  Release BTC amount
    * @param params.recipient Bitcoin address for recipient
    * @param params.provider  EVM wallet provider, ethers.BrowserProvider

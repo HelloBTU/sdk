@@ -1,16 +1,5 @@
 export const BORROW_ABI = [
   {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'btccBridge_',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'nonpayable',
-    type: 'constructor',
-  },
-  {
     anonymous: false,
     inputs: [
       {

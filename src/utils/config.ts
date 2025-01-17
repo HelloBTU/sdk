@@ -1,4 +1,4 @@
-export const BRIDGE_CONFIG = {
+export const CHANNEL_CONFIG = {
   bitcoin_testnet: {
     committee: 'tb1pfn3dx2eh4wcrpzqjr0wf3vuwtyaha7jnjzsx05wq4pze6u034rksg33n7r',
     consumer: '0x1089d6456490e7a7b0dbcc6c7a552265f71126ae',

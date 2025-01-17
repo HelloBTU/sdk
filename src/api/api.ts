@@ -1,5 +1,5 @@
 import type { BitcoinNetwork } from './bitcoin'
-import { BRIDGE_CONFIG, VERSION } from '../utils/config'
+import { CHANNEL_CONFIG, VERSION } from '../utils/config'
 
 const BACKEND_API_CONFIG: {
   [key in BitcoinNetwork]: { network: string, url: string }
@@ -21,7 +21,7 @@ export class BackendApi {
   constructor(network: BitcoinNetwork) {
     this.network = network
     this.host = BACKEND_API_CONFIG[this.network].url
-    this.config = BRIDGE_CONFIG[this.network]
+    this.config = CHANNEL_CONFIG[this.network]
   }
 
   httpGet = async (route: string, parameters: any) => {

@@ -1,4 +1,4 @@
-export const BRIDGE_ABI = [
+export const CHANNEL_ABI = [
   {
     inputs: [
       {
@@ -820,4 +820,4 @@ export const BRIDGE_ABI = [
   },
 ]
 
-export default BRIDGE_ABI
+export default CHANNEL_ABI

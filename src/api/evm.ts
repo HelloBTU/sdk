@@ -5,7 +5,7 @@ import {
   formatEther,
   JsonRpcProvider,
 } from 'ethers'
-import { BORROW_ABI, BRIDGE_ABI, BTCC_ABI, BTU_ABI, ERC20_ABI } from '../abi'
+import { BORROW_ABI, BTCC_ABI, BTU_ABI, CHANNEL_ABI, ERC20_ABI } from '../abi'
 import { BorrowRecord } from '../modals/BorrowRecord'
 import { BitcoinAddressType } from '../types/bitcoin'
 import { ORIGIN_TOKEN } from '../utils/constants'
@@ -50,48 +50,48 @@ export class EvmApi {
   }
 
   /**
-   * Check bridge deposit status
+   * Check channel deposit status
    * @param contractAddress contract address
    * @returns boolean
    */
   async isDepositPaused(contractAddress: string): Promise<boolean> {
-    const bridgeContract = new Contract(
+    const channelContract = new Contract(
       contractAddress,
-      BRIDGE_ABI,
+      CHANNEL_ABI,
       this.provider,
     )
-    return await bridgeContract.paused!(0)
+    return await channelContract.paused!(0)
   }
 
   /**
-   * Get deposit bridge fee.
+   * Get deposit channel fee.
    * @param contractAddress
    * @returns bigint
    */
   async depositFee(contractAddress: string): Promise<bigint> {
-    const bridgeContract = new Contract(
+    const channelContract = new Contract(
       contractAddress,
-      BRIDGE_ABI,
+      CHANNEL_ABI,
       this.provider,
     )
-    return await bridgeContract.depositFee!()
+    return await channelContract.depositFee!()
   }
 
   /**
-   * Get withdraw bridge fee.
+   * Get withdraw channel fee.
    * @param contractAddress
    * @returns bigint
    */
   async withdrawFee(contractAddress: string): Promise<bigint> {
-    const bridgeContract = new Contract(
+    const channelContract = new Contract(
       contractAddress,
-      BRIDGE_ABI,
+      CHANNEL_ABI,
       this.provider,
     )
     const formattedAddress = EvmApi.formatBitcoinAddress(
       'bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq',
     )
-    const result = await bridgeContract.getTotalWithdrawFee!(
+    const result = await channelContract.getTotalWithdrawFee!(
       0,
       formattedAddress,
     )
@@ -104,12 +104,12 @@ export class EvmApi {
    * @returns bigint
    */
   async minWithdrawAmount(contractAddress: string): Promise<bigint> {
-    const bridgeContract = new Contract(
+    const channelContract = new Contract(
       contractAddress,
-      BRIDGE_ABI,
+      CHANNEL_ABI,
       this.provider,
     )
-    return await bridgeContract.minWithdrawAmount!()
+    return await channelContract.minWithdrawAmount!()
   }
 
   /**
@@ -121,19 +121,19 @@ export class EvmApi {
     contractAddress: string,
     address: string,
   ): Promise<bigint> {
-    const bridgeContract = new Contract(
+    const channelContract = new Contract(
       contractAddress,
-      BRIDGE_ABI,
+      CHANNEL_ABI,
       this.provider,
     )
-    const result = await bridgeContract.depositMap!(address)
+    const result = await channelContract.depositMap!(address)
     return result
   }
 
   /**
    * Withdraw BTC from an EVM-compatible chain.
    * @param params UnstakeBitcoin
-   * @param params.contract Bridge contract address
+   * @param params.contract Channel contract address
    * @param params.address EVM address for refund after failure
    * @param params.recipient Bitcoin address for recipient
    * @param params.amount Unstake amount
@@ -149,11 +149,11 @@ export class EvmApi {
       provider,
     } = params
 
-    const bridgeContract = new Contract(contract, BRIDGE_ABI, this.provider)
+    const channelContract = new Contract(contract, CHANNEL_ABI, this.provider)
     const formattedAddress = EvmApi.formatBitcoinAddress(recipient)
 
-    const amountLimit = await bridgeContract.minWithdrawAmount!()
-    const fee = await bridgeContract.getTotalWithdrawFee!(
+    const amountLimit = await channelContract.minWithdrawAmount!()
+    const fee = await channelContract.getTotalWithdrawFee!(
       amount,
       formattedAddress,
     )
@@ -166,7 +166,7 @@ export class EvmApi {
     }
 
     const _signer = await provider.getSigner()
-    const data = await bridgeContract
+    const data = await channelContract
       .getFunction('withdraw')
       .populateTransaction(amount, formattedAddress, address, {
         value: fee[0],
@@ -178,7 +178,7 @@ export class EvmApi {
   /**
    * Release BTC from an EVM-compatible chain.
    * @param params
-   * @param params.address Bridge contract address
+   * @param params.address Channel contract address
    * @param params.amount  Release BTC amount
    * @param params.recipient Bitcoin address for recipient
    * @param params.provider  EVM wallet provider, ethers.BrowserProvider
@@ -192,11 +192,11 @@ export class EvmApi {
       recipient,
     } = params
 
-    const bridgeContract = new Contract(address, BRIDGE_ABI, this.provider)
+    const channelContract = new Contract(address, CHANNEL_ABI, this.provider)
     const formattedAddress = EvmApi.formatBitcoinAddress(recipient)
 
     const signer = await provider.getSigner()
-    const data = await bridgeContract
+    const data = await channelContract
       .getFunction('release')
       .populateTransaction(amount, formattedAddress)
     await this.provider.estimateGas({ ...data, from: signer.address })
@@ -209,7 +209,7 @@ export class EvmApi {
    * @param params.address BTCC contract address
    * @param params.amount Redeem BTC amount
    * @param params.recipient Bitcoin address for recipient
-   * @param params.consumer Bridge contract address
+   * @param params.consumer Channel contract address
    * @param params.provider  EVM wallet provider, ethers.BrowserProvider
    * @returns TransactionResponse
    */
@@ -222,11 +222,11 @@ export class EvmApi {
       provider,
     } = params
 
-    const bridgeContract = new Contract(consumer, BRIDGE_ABI, this.provider)
+    const channelContract = new Contract(consumer, CHANNEL_ABI, this.provider)
     const btccContract = new Contract(address, BTCC_ABI, this.provider)
     const formattedAddress = EvmApi.formatBitcoinAddress(recipient)
 
-    const fee = await bridgeContract.getTotalWithdrawFee!(
+    const fee = await channelContract.getTotalWithdrawFee!(
       amount,
       formattedAddress,
     )
