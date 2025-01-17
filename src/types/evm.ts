@@ -41,13 +41,13 @@ export interface BorrowParams {
 
 export interface RepayParams {
   address: string
-  amount: string
+  amount: bigint
   provider: BrowserProvider
 }
 
 export interface IncreasePledge {
   address: string
-  amount: string
+  amount: bigint
   account: string
   provider: BrowserProvider
 }

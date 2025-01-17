@@ -25,9 +25,9 @@ yarn add @hellobtu/sdk
    - Get [secp256k1.wasm](./assets/secp256k1.wasm)
    - Place it in your project's `public/` directory
 
-### Basic Usage
+## Basic Usage
 
-#### 1. Check User's PRO Status
+### 1. Check User's PRO Status
 ```typescript
 import { getProInfo } from '@hellobtu/sdk'
 
@@ -44,7 +44,7 @@ console.log(info)
 // }
 ```
 
-#### 2. Upgrade to PRO Status
+### 2. Upgrade to PRO Status
 
 Note: You must first send the required fee to the `feeAddress` before calling this function.
 
@@ -55,7 +55,7 @@ import { upgradeToPro } from '@hellobtu/sdk'
 const result = await upgradeToPro('bitcoin_testnet', 'tb1q...')
 ```
 
-#### 3. Stake Bitcoin
+### 3. Stake Bitcoin
 ```typescript
 import { stakeBitcoin } from '@hellobtu/sdk'
 
@@ -93,20 +93,182 @@ console.log('Staking Transaction Hash:', txHash)
 
 ### 4. BTUApi for EVM chain
 
+- #### Below are query functions on BUTApi
 ```typescript
 import { BTUApi } from '@hellobtu/sdk'
 
 // Example
 const btuApi = new BUTApi('chain_rpc_url')
 
-// Withdraw staked BTC from an EVM-compatible chain.
-const txReq = await btuApi.unstakeBitcoin({
+await btuApi.getTotalSupplyForBTCC(token_contract_address)
+
+await btuApi.getTotalSupplyForBTU(token_contract_address)
+
+//  Check bridge deposit status
+await btuApi.isDepositPaused(bridge_contract_address)
+
+// Get deposit bridge fee.
+await btuApi.depositFee(bridge_contract_address)
+
+// Get minium withdraw amount
+await btuApi.miniumWithdrawAmount(bridge_contract_address)
+
+// Get maximum withdraw amount
+await btuApi.maximumWithdrawAmount(bridge_contract_address, user_address)
+
+// Get withdraw bridge fee.
+await btuApi.withdrawFee(bridge_contract_address)
+
+// Basic borrow info
+await btuApi.getBorrowInfo(stableVault_contract)
+
+/**
+ * Fetch all borrowing records for the current user
+ * @param contract stableVault contract address
+ * @param address user address
+ * @param isAll true: get all history, false: get current unclosed record
+ * @returns BorrowRecord[]
+ */
+await btuApi.getBorrowHistory(stableVault_contract, user_address, isAll)
+
+/**
+ * Fetch liquidation list
+ * @param contract stableVault Contract address
+ * @param start Start index
+ * @param end  End index
+ * @returns -{start: number, total: number, records: BorrowRecord[] }
+ */
+await btuApi.getLiquidationList(stableVault_contract, start_index, end_index)
+
+/**
+ * Calculate the BTCC received from liquidation given the BTU amout
+ * @param contract  stableVault contract address
+ * @param amount Remaining borrowed for BTU
+ * @returns Receive BTCC amount
+ */
+await btuApi.computeReceiveBTCCAmount(stableVault_contract, BTU_amount, receive_BTCC)
+```
+
+- #### Below are operations on BTUApi
+```typescript
+import { BTUApi } from '@hellobtu/sdk'
+
+// Example
+const btuApi = new BUTApi('chain_rpc_url')
+
+/**
+ * Withdraw staked BTC from an EVM-compatible chain.
+ * @param params UnstakeBitcoin
+ * @param params.contract Bridge contract address
+ * @param params.address EVM address for refund after failure
+ * @param params.recipient Bitcoin address for recipient
+ * @param params.amount Unstake BTC amount
+ * @param params.provider EVM wallet provider;
+ * @returns ethers.TransactionResponse
+ */
+await btuApi.unstakeBitcoin({
   contract: '0x',
   address: '0x',
   recipient: '0x',
+  amount: 0n,
+  provider: new BrowserProvider()
+})
+
+/**
+ * Redeem BTC from an EVM-compatible chain.
+ * @param params RedeemBitcoin
+ * @param params.address BTCC contract address
+ * @param params.amount Redeem BTC amount
+ * @param params.recipient Bitcoin address for recipient
+ * @param params.consumer Bridge contract address
+ * @param params.provider  EVM wallet provider
+ * @returns ethers.TransactionResponse
+ */
+await btuApi.redeemBitcoin({
+  address: '0x',
+  amount: 0n,
+  recipient: '0x',
+  consumer: '0x',
+  provider: new BrowserProvider()
+})
+
+/**
+ * Release BTC from an EVM-compatible chain.
+ * @param params ReleaseBitcoin
+ * @param params.address Bridge contract address
+ * @param params.amount  Release BTC amount
+ * @param params.recipient Bitcoin address for recipient
+ * @param params.provider  EVM wallet provider
+ * @returns ethers.TransactionResponse
+ */
+await btuApi.releaseBitcoin({
+  address: '0x',
+  amount: 0n,
+  recipient: '0x',
+  provider: new BrowserProvider()
+})
+
+/**
+ * Borrow BTU
+ * @param params BorrowParams
+ * @param params.address BTU contract address
+ * @param params.amount Pledge amount; BTCC => BTU
+ * @param params.date Maturity date
+ * @param params.provider EVM wallet provider
+ * @returns ethers.TransactionResponse
+ */
+await btuApi.borrowBTU({
+  address: '0x',
+  amount: 0n,
+  date: 0,
+  provider: new BrowserProvider()
+})
+
+/**
+ * Repay BTU
+ * @param params RepayParams
+ * @param params.address BTU contract address
+ * @param params.amount Repaying the borrowed BTU amount
+ * @param params.provider EVM wallet provider
+ * @returns ethers.TransactionResponse
+ */
+await btuApi.repayBTU({
+  address: '0x',
+  amount: 0n,
+  provider: new BrowserProvider()
+})
+
+/**
+ * Increase BTCC collateral for borrowing
+ * @param params IncreasePledge
+ * @param params.address BTCC contract address
+ * @param params.amount Increase BTCC amount
+ * @param params.account User address
+ * @param params.provider EVM wallet provider
+ * @returns ethers.TransactionResponse
+ */
+await btuApi.increaseBTCCForBorrowing({
+  address: '0x',
+  amount: 0n,
+  account: '0x',
+  provider: new BrowserProvider()
+})
+
+/**
+ * Use the BTU to liquidation borrowing,The liquidator receives BTCC.
+ * @param params LiquidationBorrowing
+ * @param params.address BTU contract address
+ * @param params.account Borrower account
+ * @param params.provider EVM wallet provider
+ * @returns ethers.TransactionResponse
+ */
+await btuApi.liquidationBorrowing({
+  address: '0x',
+  account: '0x',
   provider: new BrowserProvider()
 })
 ```
+
 ### Network Support
 
 The SDK supports testnet and EVM-compatible chain:
