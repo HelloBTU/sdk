@@ -2,27 +2,8 @@ export const CHANNEL_ABI = [
   {
     inputs: [
       {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
-    name: 'depositMap',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'contract IBBTCVault',
-        name: 'bbtcVault_',
+        internalType: 'contract IBTCCVault',
+        name: 'tokenVault_',
         type: 'address',
       },
       {
@@ -33,11 +14,6 @@ export const CHANNEL_ABI = [
       {
         internalType: 'address',
         name: 'initialOwner_',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'initialModerator_',
         type: 'address',
       },
     ],
@@ -54,19 +30,6 @@ export const CHANNEL_ABI = [
     ],
     name: 'NOT_ANCHOR',
     type: 'error',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'newModerator',
-        type: 'address',
-      },
-    ],
-    name: 'BridgeModeratorAdded',
-    type: 'event',
   },
   {
     anonymous: false,
@@ -117,7 +80,7 @@ export const CHANNEL_ABI = [
     inputs: [
       {
         indexed: false,
-        internalType: 'enum BridgePausable.PausedType',
+        internalType: 'enum ChannelPausable.PausedType',
         name: 'actionType',
         type: 'uint8',
       },
@@ -129,6 +92,37 @@ export const CHANNEL_ABI = [
       },
     ],
     name: 'Paused',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'bytes32',
+        name: 'id',
+        type: 'bytes32',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'normalizedAmount',
+        type: 'uint256',
+      },
+      {
+        indexed: false,
+        internalType: 'address',
+        name: 'sender',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'bytes',
+        name: 'releaseAddress',
+        type: 'bytes',
+      },
+    ],
+    name: 'Release',
     type: 'event',
   },
   {
@@ -188,7 +182,7 @@ export const CHANNEL_ABI = [
     inputs: [
       {
         indexed: false,
-        internalType: 'enum BridgePausable.PausedType',
+        internalType: 'enum ChannelPausable.PausedType',
         name: 'actionType',
         type: 'uint8',
       },
@@ -254,50 +248,11 @@ export const CHANNEL_ABI = [
     type: 'function',
   },
   {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'moderator_',
-        type: 'address',
-      },
-    ],
-    name: 'addBridgeModerators',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
     inputs: [],
     name: 'anchor',
     outputs: [
       {
         internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'bbtc',
-    outputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'bbtcVault',
-    outputs: [
-      {
-        internalType: 'contract IBBTCVault',
         name: '',
         type: 'address',
       },
@@ -320,39 +275,7 @@ export const CHANNEL_ABI = [
   },
   {
     inputs: [],
-    name: 'bitstableDAO',
-    outputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'bridgeModerator',
-    outputs: [
-      {
-        internalType: 'address[]',
-        name: '',
-        type: 'address[]',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    name: 'bridgeSigners',
+    name: 'btuVault',
     outputs: [
       {
         internalType: 'address',
@@ -374,6 +297,25 @@ export const CHANNEL_ABI = [
     name: 'burn',
     outputs: [],
     stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    name: 'channelSignerMap',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
     type: 'function',
   },
   {
@@ -472,6 +414,25 @@ export const CHANNEL_ABI = [
   {
     inputs: [
       {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    name: 'depositMap',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
         internalType: 'uint256',
         name: 'amount',
         type: 'uint256',
@@ -495,7 +456,52 @@ export const CHANNEL_ABI = [
   },
   {
     inputs: [],
+    name: 'end',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'feeFund',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
     name: 'feeRecipient',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes4',
+        name: '',
+        type: 'bytes4',
+      },
+    ],
+    name: 'functionCaller',
     outputs: [
       {
         internalType: 'address',
@@ -514,12 +520,25 @@ export const CHANNEL_ABI = [
         type: 'bytes',
       },
     ],
-    name: 'getBridgeFee',
+    name: 'getChannelFee',
     outputs: [
       {
         internalType: 'uint256',
-        name: 'bridgeFee',
+        name: 'channelFee',
         type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'getTokenAddress',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
       },
     ],
     stateMutability: 'view',
@@ -542,13 +561,45 @@ export const CHANNEL_ABI = [
     outputs: [
       {
         internalType: 'uint256',
-        name: 'bridgeFee_',
+        name: 'channelFee_',
         type: 'uint256',
       },
       {
         internalType: 'uint256',
         name: 'withdrawFee_',
         type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'addr',
+        type: 'address',
+      },
+    ],
+    name: 'isInSigners',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'live',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
       },
     ],
     stateMutability: 'view',
@@ -596,7 +647,7 @@ export const CHANNEL_ABI = [
   {
     inputs: [
       {
-        internalType: 'enum BridgePausable.PausedType',
+        internalType: 'enum ChannelPausable.PausedType',
         name: 'actionType',
         type: 'uint8',
       },
@@ -609,7 +660,7 @@ export const CHANNEL_ABI = [
   {
     inputs: [
       {
-        internalType: 'enum BridgePausable.PausedType',
+        internalType: 'enum ChannelPausable.PausedType',
         name: 'actionType',
         type: 'uint8',
       },
@@ -644,21 +695,26 @@ export const CHANNEL_ABI = [
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'renounceOwnership',
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256',
+      },
+      {
+        internalType: 'bytes',
+        name: 'releaseAddress',
+        type: 'bytes',
+      },
+    ],
+    name: 'release',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
   },
   {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'bitstableDAO_',
-        type: 'address',
-      },
-    ],
-    name: 'setBitstableDAO',
+    inputs: [],
+    name: 'renounceOwnership',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -680,11 +736,42 @@ export const CHANNEL_ABI = [
     inputs: [
       {
         internalType: 'address',
+        name: '_end',
+        type: 'address',
+      },
+    ],
+    name: 'setEnd',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
         name: 'newRecipient',
         type: 'address',
       },
     ],
     name: 'setFeeRecipient',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes4',
+        name: 'selector',
+        type: 'bytes4',
+      },
+      {
+        internalType: 'address',
+        name: 'functionCaller_',
+        type: 'address',
+      },
+    ],
+    name: 'setFunctionCaller',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -706,6 +793,19 @@ export const CHANNEL_ABI = [
     inputs: [
       {
         internalType: 'uint256',
+        name: 'singerThreshold_',
+        type: 'uint256',
+      },
+    ],
+    name: 'setSingerThreshold',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
         name: 'newFee',
         type: 'uint256',
       },
@@ -713,6 +813,19 @@ export const CHANNEL_ABI = [
     name: 'setWithdrawFee',
     outputs: [],
     stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'singerThreshold',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
     type: 'function',
   },
   {
@@ -737,6 +850,45 @@ export const CHANNEL_ABI = [
   {
     inputs: [
       {
+        internalType: 'bool',
+        name: '_live',
+        type: 'bool',
+      },
+    ],
+    name: 'toggleLive',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'token',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'tokenVault',
+    outputs: [
+      {
+        internalType: 'contract IBTCCVault',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
         internalType: 'address',
         name: 'newOwner',
         type: 'address',
@@ -750,7 +902,7 @@ export const CHANNEL_ABI = [
   {
     inputs: [
       {
-        internalType: 'enum BridgePausable.PausedType',
+        internalType: 'enum ChannelPausable.PausedType',
         name: 'actionType',
         type: 'uint8',
       },
@@ -799,24 +951,6 @@ export const CHANNEL_ABI = [
   {
     stateMutability: 'payable',
     type: 'receive',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
-      },
-      {
-        internalType: 'bytes',
-        name: 'releaseAddress',
-        type: 'bytes',
-      },
-    ],
-    name: 'release',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
   },
 ]
 

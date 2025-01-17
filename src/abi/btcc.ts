@@ -41,6 +41,25 @@ export const BTCC_ABI = [
       {
         indexed: true,
         internalType: 'address',
+        name: 'previousOwner',
+        type: 'address',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'newOwner',
+        type: 'address',
+      },
+    ],
+    name: 'OwnershipTransferred',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'address',
         name: 'from',
         type: 'address',
       },
@@ -129,10 +148,10 @@ export const BTCC_ABI = [
   },
   {
     inputs: [],
-    name: 'bridgeAddress',
+    name: 'btuVault',
     outputs: [
       {
-        internalType: 'address',
+        internalType: 'contract IBTUVault',
         name: '',
         type: 'address',
       },
@@ -214,6 +233,19 @@ export const BTCC_ABI = [
     type: 'function',
   },
   {
+    inputs: [],
+    name: 'end',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [
       {
         internalType: 'address',
@@ -259,29 +291,6 @@ export const BTCC_ABI = [
     inputs: [
       {
         internalType: 'address',
-        name: 'bridge_',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'stabelVault_',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'liquidationAddress_',
-        type: 'address',
-      },
-    ],
-    name: 'init',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
         name: 'to',
         type: 'address',
       },
@@ -298,12 +307,12 @@ export const BTCC_ABI = [
   },
   {
     inputs: [],
-    name: 'liquidationAddress',
+    name: 'live',
     outputs: [
       {
-        internalType: 'address',
+        internalType: 'bool',
         name: '',
-        type: 'address',
+        type: 'bool',
       },
     ],
     stateMutability: 'view',
@@ -341,42 +350,49 @@ export const BTCC_ABI = [
     type: 'function',
   },
   {
-    inputs: [
+    inputs: [],
+    name: 'owner',
+    outputs: [
       {
         internalType: 'address',
-        name: 'owner_',
+        name: '',
         type: 'address',
       },
     ],
-    name: 'setBTCCVault',
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'renounceOwnership',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'stabelVault',
-    outputs: [
+    inputs: [
       {
-        internalType: 'contract IStableVault',
-        name: '',
+        internalType: 'address',
+        name: '_end',
         type: 'address',
       },
     ],
-    stateMutability: 'view',
+    name: 'setEnd',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'stabelVaultAddress',
-    outputs: [
+    inputs: [
       {
-        internalType: 'address',
-        name: '',
+        internalType: 'contract IBTUVault',
+        name: 'btuVault_',
         type: 'address',
       },
     ],
-    stateMutability: 'view',
+    name: 'setbtuVault',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
@@ -390,6 +406,19 @@ export const BTCC_ABI = [
       },
     ],
     stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bool',
+        name: '_live',
+        type: 'bool',
+      },
+    ],
+    name: 'toggleLive',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
@@ -455,6 +484,19 @@ export const BTCC_ABI = [
         type: 'bool',
       },
     ],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'newOwner',
+        type: 'address',
+      },
+    ],
+    name: 'transferOwnership',
+    outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
   },
