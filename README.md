@@ -104,20 +104,20 @@ await btuApi.getTotalSupplyForBTCC(token_contract_address)
 
 await btuApi.getTotalSupplyForBTU(token_contract_address)
 
-//  Check bridge deposit status
-await btuApi.isDepositPaused(bridge_contract_address)
+//  Check channel deposit status
+await btuApi.isDepositPaused(channel_contract_address)
 
-// Get deposit bridge fee.
-await btuApi.depositFee(bridge_contract_address)
+// Get deposit channel fee.
+await btuApi.depositFee(channel_contract_address)
 
 // Get minium withdraw amount
-await btuApi.miniumWithdrawAmount(bridge_contract_address)
+await btuApi.miniumWithdrawAmount(channel_contract_address)
 
 // Get maximum withdraw amount
-await btuApi.maximumWithdrawAmount(bridge_contract_address, user_address)
+await btuApi.maximumWithdrawAmount(channel_contract_address, user_address)
 
-// Get withdraw bridge fee.
-await btuApi.withdrawFee(bridge_contract_address)
+// Get withdraw channel fee.
+await btuApi.withdrawFee(channel_contract_address)
 
 // Basic borrow info
 await btuApi.getBorrowInfo(stableVault_contract)
@@ -159,7 +159,7 @@ const btuApi = new BUTApi('chain_rpc_url')
 /**
  * Withdraw staked BTC from an EVM-compatible chain.
  * @param params UnstakeBitcoin
- * @param params.contract Bridge contract address
+ * @param params.contract Channel contract address
  * @param params.address EVM address for refund after failure
  * @param params.recipient Bitcoin address for recipient
  * @param params.amount Unstake BTC amount
@@ -180,7 +180,7 @@ await btuApi.unstakeBitcoin({
  * @param params.address BTCC contract address
  * @param params.amount Redeem BTC amount
  * @param params.recipient Bitcoin address for recipient
- * @param params.consumer Bridge contract address
+ * @param params.consumer Channel contract address
  * @param params.provider  EVM wallet provider
  * @returns ethers.TransactionResponse
  */
@@ -195,7 +195,7 @@ await btuApi.redeemBitcoin({
 /**
  * Release BTC from an EVM-compatible chain.
  * @param params ReleaseBitcoin
- * @param params.address Bridge contract address
+ * @param params.address Channel contract address
  * @param params.amount  Release BTC amount
  * @param params.recipient Bitcoin address for recipient
  * @param params.provider  EVM wallet provider

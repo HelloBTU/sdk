@@ -22,7 +22,7 @@ export const BTUApi = _BTUApi
  */
 export function stakeBitcoin(network: BitcoinNetwork, stakeProps: BitcoinStakeProps) {
   const client = new BitcoinClient(network)
-  return client.bridge(stakeProps)
+  return client.stake(stakeProps)
 }
 
 /**

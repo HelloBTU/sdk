@@ -143,7 +143,7 @@ export class BitcoinClient {
     return _chainId + fullAddress
   }
 
-  async bridge({
+  async stake({
     address,
     pubkey,
     committee,

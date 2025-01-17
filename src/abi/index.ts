@@ -1,5 +1,5 @@
 export * from './borrow'
-export * from './bridge'
 export * from './btcc'
 export * from './btu'
+export * from './channel'
 export * from './erc20'
