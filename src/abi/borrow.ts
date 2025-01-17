@@ -1,5 +1,16 @@
 export const BORROW_ABI = [
   {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'btccChannel_',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'nonpayable',
+    type: 'constructor',
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -73,13 +84,19 @@ export const BORROW_ABI = [
       {
         indexed: false,
         internalType: 'uint256',
-        name: 'liqAmount',
+        name: 'refundAmount',
         type: 'uint256',
       },
       {
         indexed: false,
         internalType: 'uint256',
         name: 'keeperAmount',
+        type: 'uint256',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'rewards',
         type: 'uint256',
       },
       {
@@ -195,10 +212,10 @@ export const BORROW_ABI = [
   },
   {
     inputs: [],
-    name: 'btccBridge',
+    name: 'btccChannel',
     outputs: [
       {
-        internalType: 'contract ISingleBTCCBridge',
+        internalType: 'contract ISingleBTCCChannel',
         name: '',
         type: 'address',
       },
@@ -869,12 +886,17 @@ export const BORROW_ABI = [
       },
       {
         internalType: 'uint256',
-        name: 'liqAmount',
+        name: 'refundAmount',
         type: 'uint256',
       },
       {
         internalType: 'uint256',
         name: 'keeperAmount',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'rewards',
         type: 'uint256',
       },
       {
@@ -1080,11 +1102,11 @@ export const BORROW_ABI = [
     inputs: [
       {
         internalType: 'address',
-        name: 'btccBridge_',
+        name: 'btccChannel_',
         type: 'address',
       },
     ],
-    name: 'setBTCCBridge',
+    name: 'setBTCCChannel',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
